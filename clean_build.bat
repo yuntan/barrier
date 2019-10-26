@@ -4,7 +4,7 @@ REM defaults - override them by creating a build_env.bat file
 set B_BUILD_TYPE=Debug
 set B_QT_ROOT=C:\Qt
 set B_QT_VER=5.11.1
-set B_QT_MSVC=msvc2017_64
+set B_QT_MSVC=msvc2017_32
 set B_BONJOUR=C:\Program Files\Bonjour SDK
 
 set savedir=%cd%
@@ -37,9 +37,9 @@ rmdir /q /s build
 mkdir build
 if ERRORLEVEL 1 goto failed
 cd build
-cmake -G "%cmake_gen%" -A x64 -D CMAKE_BUILD_TYPE=%B_BUILD_TYPE% -D CMAKE_PREFIX_PATH="%B_QT_FULLPATH%" -D DNSSD_LIB="%B_BONJOUR%\Lib\x64\dnssd.lib" -D QT_VERSION=%B_QT_VER% ..
+cmake -G "%cmake_gen%" -A x86 -D CMAKE_BUILD_TYPE=%B_BUILD_TYPE% -D CMAKE_PREFIX_PATH="%B_QT_FULLPATH%" -D DNSSD_LIB="%B_BONJOUR%\Lib\x86\dnssd.lib" -D QT_VERSION=%B_QT_VER% ..
 if ERRORLEVEL 1 goto failed
-echo @msbuild barrier.sln /p:Platform="x64" /p:Configuration=%B_BUILD_TYPE% /m %B_BUILD_OPTIONS% > make.bat
+echo @msbuild barrier.sln /p:Platform="x86" /p:Configuration=%B_BUILD_TYPE% /m %B_BUILD_OPTIONS% > make.bat
 call make.bat
 if ERRORLEVEL 1 goto failed
 if exist bin\Debug (
@@ -48,7 +48,7 @@ if exist bin\Debug (
     copy %B_QT_FULLPATH%\bin\Qt5Networkd.dll bin\Debug\ > NUL
     copy %B_QT_FULLPATH%\bin\Qt5Widgetsd.dll bin\Debug\ > NUL
     copy %B_QT_FULLPATH%\bin\Qt5Cored.dll bin\Debug\ > NUL
-    copy ..\ext\openssl\windows\x64\bin\* bin\Debug\ > NUL
+    copy ..\ext\openssl\windows\x86\bin\* bin\Debug\ > NUL
     copy ..\res\openssl\barrier.conf bin\Debug\ > NUL
     mkdir bin\Debug\platforms
     copy %B_QT_FULLPATH%\plugins\platforms\qwindowsd.dll bin\Debug\platforms\ > NUL
@@ -58,7 +58,7 @@ if exist bin\Debug (
     copy %B_QT_FULLPATH%\bin\Qt5Network.dll bin\Release\ > NUL
     copy %B_QT_FULLPATH%\bin\Qt5Widgets.dll bin\Release\ > NUL
     copy %B_QT_FULLPATH%\bin\Qt5Core.dll bin\Release\ > NUL
-    copy ..\ext\openssl\windows\x64\bin\* bin\Release\ > NUL
+    copy ..\ext\openssl\windows\x86\bin\* bin\Release\ > NUL
     copy ..\res\openssl\barrier.conf bin\Release\ > NUL
     mkdir bin\Release\platforms
     copy %B_QT_FULLPATH%\plugins\platforms\qwindows.dll bin\Release\platforms\ > NUL
