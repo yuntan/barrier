@@ -13,8 +13,8 @@ jobs:
     vmImage: 'vs2017-win2016'
   strategy:
     matrix:
-      Debug:
-        CI_ENV_BUILD_TYPE: Debug
+      # Debug:
+      #   CI_ENV_BUILD_TYPE: Debug
       Release with Release Installer:
         CI_ENV_BUILD_TYPE: Release
   steps:
